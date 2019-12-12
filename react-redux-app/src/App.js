@@ -1,26 +1,33 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { connect } from 'react-redux';
 
-function App() {
+import JobData from './components/jobData';
+import { getData } from './actions/index'
+
+
+
+function App(props) {
+  // console.log(props)
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>GitHub Jobs</h1>
+      <button onClick={() => props.getData()}>Get More jobs</button>
+      <JobData data={props.jobs} />
     </div>
   );
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    isLoading: state.isLoading,
+    error: state.error,
+    jobs: state.jobs
+  }
+};
+
+export default connect(
+  mapStateToProps,
+  { getData }
+)(App)
+
+// export default App;
